@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: demo-web
+  namespace: argocd
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/emacs45/aks-gitops-argocd.git
+    targetRevision: main
+    path: apps/demo-web
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: demo
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
